@@ -84,4 +84,25 @@ public class LivroController {
 
         return "redirect:/livro/list";
     }
+
+    @RequestMapping("/delete")
+    public String delete(
+        @RequestParam("id") int id,
+        Model model
+    ) {
+        Optional<Livro> livro = livroRepo.findById(id);
+
+        if(livro.isPresent()) {
+            model.addAttribute("livro", livro.get());
+            return "livro/delete";
+        }
+        return "redirect:/livro/list";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("id") int id) {
+        livroRepo.deleteById(id);
+
+        return "redirect:/livro/list";
+    }
  }
